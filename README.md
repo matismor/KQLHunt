@@ -1,1 +1,2 @@
 # KQLHunt
+KQL Hunting Queries
