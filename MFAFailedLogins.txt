@@ -1,0 +1,13 @@
+//MFA Failed Logins for last 30d
+
+SigninLogs 
+| where TimeGenerated > ago(30d)
+| where AppDisplayName == "Azure Portal"
+| extend errorCode_ = tostring(Status.errorCode)
+| where errorCode_ != "0"
+//In this next section either look for the ResultDescription text, which will catch interactive failures, or by errorCode_
+| where ResultDescription contains "User did not pass the MFA challenge."
+//| where errorCode_ == "50074"
+| extend city_ = tostring(LocationDetails.city), state_ = tostring(LocationDetails.state)
+| project UserDisplayName, TimeGenerated, IPAddress, city_, state_, errorCode_, ResultDescription
+| sort by TimeGenerated desc
