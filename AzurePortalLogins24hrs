@@ -1,8 +1,8 @@
-//Azure Portal Signin for the last 24h summarized by Identity into a barchart
-
 SigninLogs
 | where TimeGenerated > ago(24h)
 | where ResultType == "0"
+| where AppDisplayName == "Azure Portal" or AppDisplayName == "Azure Government Portal"
 | project TimeGenerated, Identity, Location, IPAddress, AuthenticationRequirement, IsInteractive, ClientAppUsed
 | summarize count() by Identity
+| sort by count_ desc
 | render barchart 
