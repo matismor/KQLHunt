@@ -1,3 +1,5 @@
+//AzurePortalLogins24hrs rendered into a barchart
+
 SigninLogs
 | where TimeGenerated > ago(24h)
 | where ResultType == "0"
@@ -5,4 +7,4 @@ SigninLogs
 | project TimeGenerated, Identity, Location, IPAddress, AuthenticationRequirement, IsInteractive, ClientAppUsed
 | summarize count() by Identity
 | sort by count_ desc
-| render barchart 
+| render barchart
