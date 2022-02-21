@@ -1,0 +1,10 @@
+//DNS Activity mapped to Device for last 1h
+
+DnsEvents
+| where TimeGenerated >= (1h)
+| join DnsInventory on Computer
+| where isnotempty(DomainName)
+// Uncomment the below line and insert what you determine to be normal in your network to reduce noise
+//| where DomainName !contains ".something"
+| sort by TimeGenerated
+| summarize Attempts = count() by TimeGenerated, Computer, ClientIP, DomainName
