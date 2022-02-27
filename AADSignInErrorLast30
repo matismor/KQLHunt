@@ -1,0 +1,7 @@
+//AAD SigninLogs for the last 30d summarized by errorCode_ count desc
+//Research codes with https://login.microsoftonline.com/error
+SigninLogs 
+| where TimeGenerated >= ago(30d)
+| extend errorCode_ = tostring(Status.errorCode)
+| summarize count() by errorCode_
+| sort by count_ desc
